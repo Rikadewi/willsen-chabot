@@ -1,4 +1,4 @@
-import re
+'''import re
 
 #Algoritma KMP
 def KnuthMorrisPratt(text, pattern): #text, pattern = string
@@ -44,7 +44,7 @@ def countLongestPrefSuf(lps, pattern, len_of_pattern):
                 temp_len = lps[temp_len-1]
             else:
                 lps[i] = 0
-                i += 1
+                i += 1'''
 
 #Algoritma Boyer-Moore
 def BoyerMoore(text, pattern): #text, pattern = string
@@ -77,16 +77,17 @@ def LastOccurenceFunction(pattern): #pattern = string
 
     return last
 
-
 def check(textIn, textDB):
     similarity = 0
-    for i in textDB:
-        if (i in textIn):
+    temp_text_In = list(textIn)
+    for i in list(textDB):
+        if (i in temp_text_In):
+            temp_text_In.remove(i)
             similarity += 1
 
     return (similarity/len(textDB))*100
 
-
+#temporary dictionary untuk testing program
 question_dict = {
     "kamu jeleg" : "pepega",
     "aku siap" : "uwah",
@@ -95,6 +96,7 @@ question_dict = {
     "tapi kan" : "watashi sasuke desu",
     "keluar" : "Bye bye"
 }
+
 if __name__ == '__main__':
     while (True):
         u = input(">>> ")
@@ -103,6 +105,7 @@ if __name__ == '__main__':
             break
         else:
             sudah = False
+            #sudah bernilai True jika sudah ada keluaran yang dikeluarkan
             sim = []
             for i, val in question_dict.items():
                 if (BoyerMoore(u, i)):
@@ -113,9 +116,11 @@ if __name__ == '__main__':
                     sim.append([check(u, i), i])
 
             if (not sudah):
-                sim.sort()
-                print("not found, mungkin pake ini:")
-                for i in range(-1, -4, -1):
-                    print("-", sim[i][1])
-                    # print("-", sim[-2][1])
-                    # print("-", sim[-3][1])
+                sim.sort() #terurut membesar, akses elemen terakhir untuk similarity terbesar
+                # print(sim[-1][0], sim[-1][1])
+                if (sim[-1][0] >= 90): #apabila similarity terbesar >= 90, perintah dijalankan
+                    print(question_dict[sim[-1][1]])
+                else:
+                    print("command tidak ditemukan, apakah maksudmu ini:")
+                    for i in range(-1, -4, -1): #print 3 kemungkinan terbesar
+                        print("-", sim[i][1])
