@@ -123,6 +123,7 @@ question_dict = {
 def stringMatch(stringData):
     try:   
         u = json.loads(stringData.body)
+        print(u)
         if (u == "keluar"):
             return JsonResponse(question_dict[u], safe=False)
         else:
