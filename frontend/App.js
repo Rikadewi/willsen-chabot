@@ -19,17 +19,22 @@ const postQuestion = (raw) => {
 }
 
 
-class Message extends Component {
+class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      messages: [],
       text: '',
       result: 'result',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   };
-  
+
   handleSubmit(){
+    this.state.messages.push([this.state.text, "wakgeng"]);
+    this.setState({
+      messages: this.state.messages,
+    });
     if(this.state.text.toLowerCase().trim() == "keluar"){
       this.props.navigation.navigate('Exit');
     }else{
@@ -48,9 +53,16 @@ class Message extends Component {
   }
     
   render() {
-    const {navigate} = this.props.navigation;
+    let temp = this.state.messages.map((message, i) => {
+      return <Message key={i} question={message[0]} reply={message[1]} />
+    })
     return (
       <View>
+        <Image 
+          source = {require('./assets/stickman.gif')} 
+        />
+        <Text>Hello</Text>
+        {temp}
         <Text>{this.state.result}</Text>
         <TextInput 
           style = {styles.textInputStyle}
@@ -67,19 +79,15 @@ class Message extends Component {
   }
 }
 
-class HomeScreen extends Component {
+class Message extends Component {
   constructor(props){
     super(props);
   }
   render() {
     return(
       <View>
-        <Image 
-          source = {require('./assets/stickman.gif')} 
-        />
-        <Text>Hello</Text>
-        <Message navigation = {this.props.navigation} />
-        <Message navigation = {this.props.navigation} />
+        <Text>{this.props.question}</Text>
+        <Text>{this.props.reply}</Text>
       </View>
     );
   }
