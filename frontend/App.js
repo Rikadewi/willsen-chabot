@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Button } from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
+import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 
 const URL = 'http://localhost:8000/stringmatch/';
 
@@ -18,7 +19,6 @@ const postQuestion = (raw) => {
   });
 }
 
-
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -31,17 +31,15 @@ class HomeScreen extends Component {
   };
 
   handleSubmit(){
-    this.state.messages.push([this.state.text, "wakgeng"]);
-    this.setState({
-      messages: this.state.messages,
-    });
     if(this.state.text.toLowerCase().trim() == "keluar"){
       this.props.navigation.navigate('Exit');
     }else{
       postQuestion(this.state.text)
       .then((res) => {
         console.log(res);
+        this.state.messages.push([this.state.text, res]);
         this.setState({
+          messages: this.state.messages,
           result: res,
         })
         })
@@ -50,31 +48,32 @@ class HomeScreen extends Component {
           alert(error.message);
         });
     };
+    this.textInput.clear();
   }
-    
   render() {
     let temp = this.state.messages.map((message, i) => {
       return <Message key={i} question={message[0]} reply={message[1]} />
     })
     return (
-      <View>
-        <Image 
-          source = {require('./assets/stickman.gif')} 
-        />
-        <Text>Hello</Text>
-        {temp}
-        <Text>{this.state.result}</Text>
-        <TextInput 
-          style = {styles.textInputStyle}
-          placeholder = "Chat with me"
-          onChangeText = {(text) => this.setState({text})}
-          />
-        <TouchableHighlight
-          onPress = {this.handleSubmit}
-          >
-          <Text>Press Me</Text>
-        </TouchableHighlight>
-      </View>
+      <KeyboardAccessory>
+        <View style={styles.chatContainer}>
+          <Image 
+            source = {require('./assets/stickman.gif')} 
+            />
+          <Text>Wilsen: Hello</Text>
+          {temp}
+          <View style = {styles.textInputContainer}>
+            <TextInput 
+              ref = {(input) => { this.textInput = input }}
+              style = {styles.textInputStyle} 
+              placeholder = "Chat with me"
+              placeholderTextColor="gray"
+              onChangeText = {(text) => this.setState({text})}
+              onSubmitEditing = {this.handleSubmit}
+            />
+          </View>
+        </View>
+      </KeyboardAccessory>
     );
   }
 }
@@ -86,8 +85,8 @@ class Message extends Component {
   render() {
     return(
       <View>
-        <Text>{this.props.question}</Text>
-        <Text>{this.props.reply}</Text>
+        <Text>You: {this.props.question}</Text>
+        <Text>Wilsen: {this.props.reply}</Text>
       </View>
     );
   }
@@ -97,14 +96,23 @@ class StartScreen extends Component {
   static navigationsOptions = {
     title: 'Welcome',
   };
-  
   render(){
     const {navigate} = this.props.navigation;
     return(
-      <Button 
-        title = "Start"
-        onPress = {() => navigate('Home')}
-      />
+      <View style={styles.container}>
+        <Text style={styles.h1}>Willsen Chatbot{"\n"}</Text>
+        
+        <Text style={styles.h2}>Created by:</Text>
+        <Text style={styles.h3}>Leonardo</Text>
+        <Text style={styles.h3}>Willsen Sentosa</Text>
+        <Text style={styles.h3}>Rika Dewi{"\n"}</Text>
+        
+        <Button
+          title = "Start"
+          style = {styles.buttonStyle}
+          onPress = {() => navigate('Home')}
+        />
+      </View>
     );
   }
 }
@@ -112,11 +120,12 @@ class StartScreen extends Component {
 class ExitScreen extends Component {
   render(){
     return(
-      <View>
+      <View style={styles.container}>
         <Image 
           source = {require('./assets/stickman.gif')} 
           />
-        <Text>Bye</Text>
+        <Text style={styles.h1}>Thank you</Text>
+        <Text style={styles.h2}>Bye-Bye!</Text>
       </View>
     );
   }
@@ -125,16 +134,49 @@ class ExitScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#eafafa',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  h1: {
+    color: '#583e23',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  h2: {
+    color: '#b0a084',
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+  h3: {
+    color: '#b0a084',
+    fontSize: 15,
+  },
+  chatContainer: {
+    backgroundColor: '#fff',
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  textInputContainer: {
+    marginLeft: -30,
+    marginRight: -30,
+    padding: 10,
+  },
   textInputStyle: {
-    height: 40,
+    backgroundColor: '#ffe19c',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#db9d47',
+    paddingLeft: 10,
+  },
+  buttonStyle: {
+    borderRadius:10,
+    padding: 10,
   },
 });
 
 const MainNavigator = createStackNavigator({
+  Start: {screen: StartScreen},
   Home: {screen: HomeScreen},
   Exit: {screen: ExitScreen},
 });
