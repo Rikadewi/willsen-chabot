@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableHighlight } from 'react-native';
+import {createStackNavigator, createAppContainer} from 'react-navigation';
+
+const MainNavigator = createStackNavigator({
+  Home: {screen: HomeScreen},
+  Exit: {screen: ExitScreen},
+});
+
+const App = createAppContainer(MainNavigator);
 
 const URL = 'http://localhost:8000/stringmatch/';
 
-// export class Reply extends Component {
-//   render() {
-
-//   }
-// }
-export const postQuestion = (raw) => {
+const postQuestion = (raw) => {
   let src = raw.toLowerCase().trim();  
   console.log(src);
   return fetch(URL, {
@@ -22,7 +25,11 @@ export const postQuestion = (raw) => {
     });
 }
 
-export default class App extends Component {
+class HomeScreen extends Component {
+  static navigationsOptions = {
+    title: 'Welcome',
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +37,7 @@ export default class App extends Component {
       result: 'result',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  };
 
   handleSubmit(){
     postQuestion(this.state.text)
@@ -44,9 +51,10 @@ export default class App extends Component {
         console.log("Api call error");
         alert(error.message);
       });
-  }
+  };
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style = {styles.container}>
         <Image 
@@ -64,7 +72,22 @@ export default class App extends Component {
         >
           <Text>Press Me</Text>
         </TouchableHighlight>
-        
+        <Button 
+          onPress={() => navigate('Exit')}
+        />
+      </View>
+    );
+  }
+}
+
+class ExitScreen extends Component {
+  render(){
+    return(
+      <View>
+        <Image 
+          source = {require('./assets/stickman.gif')} 
+        />
+        <Text>Bye</Text>
       </View>
     );
   }
@@ -81,3 +104,5 @@ const styles = StyleSheet.create({
     height: 40,
   },
 });
+
+export default App;
