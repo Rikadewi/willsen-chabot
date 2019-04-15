@@ -19,5 +19,6 @@ from chatbot import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^stringmatch/',views.stringMatch)
+    url(r'^chatbot/', views.MainProg),
+    #url(r'^testis/', views.IdealWeight),
 ]

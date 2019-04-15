@@ -8,66 +8,51 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.conf import settings
 import json
-import re
-
 # Create your views here.
-
 @api_view(["POST"])
-def IdealWeight(heightdata):
+def MainProg(inp):
     try:
-        height=json.loads(heightdata.body)
-        weight=str(height*10)
-        return JsonResponse("Ideal weight should be:"+weight+" kg",safe=False)
-    except ValueError as e:
-        return Response(e.args[0],status.HTTP_400_BAD_REQUEST)
+        #while (True):
+        #temporary dictionary untuk testing program
+        question_dict = {
+            "kamu jeleg" : "pepega",
+            "aku siap" : "uwah",
+            "aku tidak siap" : "men",
+            "kenapa kau" : "aing cool",
+            "tapi kan" : "watashi sasuke desu",
+            "keluar" : "Bye bye"
+        }
 
-# ======== String Matching ==========
-
-#Algoritma KMP
-def KnuthMorrisPratt(text, pattern): #text, pattern = string
-    t = len(text)
-    p = len(pattern)
-    #lps = longest prefix suffix
-    lps = [0 for i in range(t)]
-    countLongestPrefSuf(lps, pattern, p)
-
-    i = 0; j = 0
-    found_at_least_one = False
-    while i < t:
-        if (pattern[j] == text[i]):
-            i += 1
-            j += 1
-
-        if (j == p):
-            #pattern ditemukan
-            print("pattern ada di", (i-j))
-            found_at_least_one = True
-            j = lps[j-1]
-        elif (i < t) and (pattern[j] != text[i]):
-            if (j != 0):
-                j = lps[j-1]
-            else:
-                i += 1
-    if (not found_at_least_one):
-        print("pattern tidak ditemukan")
-
-def countLongestPrefSuf(lps, pattern, len_of_pattern):
-    temp_len = 0
-
-    lps[0] = 0
-    
-    i = 1
-    while (i < len_of_pattern):
-        if (pattern[i] == pattern[temp_len]):
-            temp_len += 1
-            lps[i] = temp_len
-            i += 1
+        u = str(json.loads(inp.body))
+        if (u == "keluar"):
+            answer = question_dict[u]
+            #break
         else:
-            if (temp_len != 0):
-                temp_len = lps[temp_len-1]
-            else:
-                lps[i] = 0
-                i += 1
+            sudah = False
+            #sudah bernilai True jika sudah ada keluaran yang dikeluarkan
+            sim = []
+            for i, val in question_dict.items():
+                if (BoyerMoore(u, i)):
+                    answer = val
+                    sudah = True
+                    break
+                else:
+                    sim.append([check(u, i), i])
+
+            if (not sudah):
+                sim.sort() #terurut membesar, akses elemen terakhir untuk similarity terbesar
+                # print(sim[-1][0], sim[-1][1])
+                if (sim[-1][0] >= 90): #apabila similarity terbesar >= 90, perintah dijalankan
+                    answer = question_dict[sim[-1][1]]
+                else:
+                    answer = "command tidak ditemukan, apakah maksudmu ini:<br>"
+                    for i in range(-1, -4, -1): #print 3 kemungkinan terbesar
+                        answer += ("- " + sim[i][1] + "<br>")
+
+        return JsonResponse(answer, safe = False)
+    except ValueError as ve:
+        return Response(ve.args[0], status.HTTP_400_BAD_REQUEST)
+
 
 #Algoritma Boyer-Moore
 def BoyerMoore(text, pattern): #text, pattern = string
@@ -100,57 +85,12 @@ def LastOccurenceFunction(pattern): #pattern = string
 
     return last
 
-
 def check(textIn, textDB):
     similarity = 0
-    for i in textDB:
-        if (i in textIn):
+    temp_text_In = list(textIn)
+    for i in list(textDB):
+        if (i in temp_text_In):
+            temp_text_In.remove(i)
             similarity += 1
 
     return (similarity/len(textDB))*100
-
-
-question_dict = {
-    "kamu jeleg" : "pepega",
-    "aku siap" : "uwah",
-    "aku tidak siap" : "men",
-    "kenapa kau" : "aing cool",
-    "tapi kan" : "watashi sasuke desu",
-    "keluar" : "Bye bye"
-}
-
-@api_view(["POST"])
-def stringMatch(stringData):
-    try:   
-        u = json.loads(stringData.body)
-        print(u)
-        if (u == "keluar"):
-            return JsonResponse(question_dict[u], safe=False)
-        else:
-            sudah = False
-            sim = []
-            for i, val in question_dict.items():
-                if (BoyerMoore(u, i)):
-                    return JsonResponse(val, safe=False)
-                    sudah = True
-                    break
-                else:
-                    sim.append([check(u, i), i])
-            if (not sudah):
-                sim.sort()
-            return JsonResponse("sim", safe=False)
-                # print("not found, mungkin pake ini:")
-                # for i in range(-1, -4, -1):
-                #     print("-", sim[i][1])
-    except ValueError as e:
-        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
-
-@api_view(["POST"])
-def Idealweight(heightdata):
-    try:
-        height=json.loads(heightdata.body)
-        weight=str(height*100)
-        return JsonResponse("Ideal weight should be:"+weight+" kg",safe=False)
-    except ValueError as e:
-        return Response(e.args[0],status.HTTP_400_BAD_REQUEST)
-
