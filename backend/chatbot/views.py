@@ -15,7 +15,8 @@ def MainProg(inp):
         #temporary dictionary diambil dari qna.txt
         question_dict = ReadQnA()
         question_dict.update({'keluar' : 'bye bye'})
-        u = str(json.loads(inp.body)).lower() #make input lowercase
+        #make input lowercase, convert synonym, delete stopwords
+        u = DelStopwords(ToSynonym(str(json.loads(inp.body)).lower()))
         if (u == "keluar"):
             answer = question_dict[u]
             #break
@@ -110,3 +111,72 @@ def ReadQnA():
         a = qna.read(1)
 
     return question_dict
+
+def ReadSynonym():
+    synonym = open('synonym.txt', 'r')
+    a = synonym.read(1)
+    dict_of_syn = {}
+    while (a != ""):
+        temp_word = []
+        while (a != ' '):
+            temp_word.append(a)
+            a = synonym.read(1)
+        word = ''.join(temp_word)
+        a = synonym.read(1)#read space
+        list_of_syn = []
+        while (a != '\n' and a != ''):
+            temp_syn = []
+            while (a != ' ' and a != '\n' and a != ''):
+                temp_syn.append(a)
+                a = synonym.read(1)
+            syn = ''.join(temp_syn)
+            if (a == ' '):
+                a = synonym.read(1)
+            list_of_syn.append(syn)
+
+        dict_of_syn.update({word : list_of_syn})
+        a = synonym.read(1)#read \n
+    
+    return dict_of_syn
+
+def ToSynonym(inp):
+    dict_of_syn = ReadSynonym()
+    inp_sp = inp.split(' ')
+    inp_sp[-1] = inp_sp[-1].replace('?', '')
+    
+    for i, val in enumerate(inp_sp):
+        for key, value in dict_of_syn.items():
+            if (val in value):
+                inp_sp[i] = key
+
+    inp_final = ' '.join(inp_sp)
+    inp_final += '?'
+    return inp_final
+
+def ReadStopwords():
+    stopword_list = []
+    stopwords = open('stopwords.txt', 'r')
+    a = stopwords.read(1)
+    while (a != ''):
+        temp_stopword = []
+        while (a != '\n' and a != ''):
+            temp_stopword.append(a)
+            a = stopwords.read(1)
+        stopword = ''.join(temp_stopword)
+        a = stopwords.read(1)
+        stopword_list.append(stopword)
+
+    return stopword_list
+
+def DelStopwords(inp):
+    stopword_list = ReadStopwords()
+    print(inp)
+    inp_sp = inp.split()
+    inp_sp[-1] = inp_sp[-1].replace('?', '')
+    for i in inp_sp:
+        if (i in stopword_list):
+            inp_sp.remove(i)
+
+    inp_final = ' '.join(inp_sp)
+    inp_final += '?'
+    return inp_final
