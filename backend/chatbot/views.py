@@ -12,18 +12,10 @@ import json
 @api_view(["POST"])
 def MainProg(inp):
     try:
-        #while (True):
-        #temporary dictionary untuk testing program
-        question_dict = {
-            "kamu jeleg" : "pepega",
-            "aku siap" : "uwah",
-            "aku tidak siap" : "men",
-            "kenapa kau" : "aing cool",
-            "tapi kan" : "watashi sasuke desu",
-            "keluar" : "Bye bye"
-        }
-
-        u = str(json.loads(inp.body))
+        #temporary dictionary diambil dari qna.txt
+        question_dict = ReadQnA()
+        question_dict.update({'keluar' : 'bye bye'})
+        u = str(json.loads(inp.body)).lower() #make input lowercase
         if (u == "keluar"):
             answer = question_dict[u]
             #break
@@ -94,3 +86,27 @@ def check(textIn, textDB):
             similarity += 1
 
     return (similarity/len(textDB))*100
+
+def ReadQnA():
+    qna = open('qna.txt', 'r')
+    question_dict = {}
+    a = qna.read(1)
+    while (a != ""):
+        temp_pert = []
+        while (a != '?'):
+            temp_pert.append(a)
+            a = qna.read(1)
+        temp_pert.append('?')
+        pert = ''.join(temp_pert)
+        a = qna.read(1)
+        a = qna.read(1) #ilangin spasi agar tidak ada pada jawaban
+        temp_jaw = []
+        while (a != '\n' and a != ""):
+            temp_jaw.append(a)
+            a = qna.read(1)
+        jaw = ''.join(temp_jaw)
+
+        question_dict.update({pert.lower() : jaw})#make all query lowercase
+        a = qna.read(1)
+
+    return question_dict
