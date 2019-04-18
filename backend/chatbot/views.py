@@ -78,6 +78,53 @@ def LastOccurenceFunction(pattern): #pattern = string
 
     return last
 
+#Algoritma Knuth-Morris-Pratt
+def KnuthMorrisPratt(text, pattern): #text, pattern = string
+    t = len(text)
+    p = len(pattern)
+    #lps = longest prefix suffix
+    lps = [0 for i in range(t)]
+    countLongestPrefSuf(lps, pattern, p)
+
+    i = 0; j = 0
+    found_at_least_one = False
+    while i < t:
+        if (pattern[j] == text[i]):
+            i += 1
+            j += 1
+
+        if (j == p):
+            #pattern ditemukan
+            print("pattern ada di", (i-j))
+            found_at_least_one = True
+            j = lps[j-1]
+        elif (i < t) and (pattern[j] != text[i]):
+            if (j != 0):
+                j = lps[j-1]
+            else:
+                i += 1
+    if (not found_at_least_one):
+        print("pattern tidak ditemukan")
+
+def countLongestPrefSuf(lps, pattern, len_of_pattern):
+    temp_len = 0
+
+    lps[0] = 0
+    
+    i = 1
+    while (i < len_of_pattern):
+        if (pattern[i] == pattern[temp_len]):
+            temp_len += 1
+            lps[i] = temp_len
+            i += 1
+        else:
+            if (temp_len != 0):
+                temp_len = lps[temp_len-1]
+            else:
+                lps[i] = 0
+                i += 1
+                
+#percentage check
 def check(textIn, textDB):
     similarity = 0
     temp_text_In = list(textIn)
@@ -88,6 +135,7 @@ def check(textIn, textDB):
 
     return (similarity/len(textDB))*100
 
+#QnA, Synonym, Stopword Functions
 def ReadQnA():
     qna = open('qna.txt', 'r')
     question_dict = {}
@@ -173,9 +221,7 @@ def DelStopwords(inp):
     print(inp)
     inp_sp = inp.split()
     inp_sp[-1] = inp_sp[-1].replace('?', '')
-    for i in inp_sp:
-        if (i in stopword_list):
-            inp_sp.remove(i)
+    inp_sp = [i for i in inp_sp if (i not in stopword_list)]
 
     inp_final = ' '.join(inp_sp)
     inp_final += '?'
