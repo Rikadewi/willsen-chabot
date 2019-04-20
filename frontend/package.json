@@ -6,6 +6,7 @@
     "ios": "expo start --ios",
     "eject": "expo eject"
   },
+  "license": "UNLICENSED",
   "dependencies": {
     "expo": "^32.0.0",
     "react": "16.5.0",

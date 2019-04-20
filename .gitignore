@@ -1,2 +1,11 @@
 backend/chatbot/__pycache__/
 backend/backend/__pycache__/
+backend/chatbot/migrations/__pycache__/
+node_modules/**/*
+frontend/node_modules/**/*
+frontend/.expo/*
+frontend/npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision

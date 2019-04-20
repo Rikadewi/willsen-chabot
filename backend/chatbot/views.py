@@ -38,9 +38,9 @@ def MainProg(inp):
                 if (sim[-1][0] >= 90): #apabila similarity terbesar >= 90, perintah dijalankan
                     answer = question_dict[sim[-1][1]]
                 else:
-                    answer = "command tidak ditemukan, apakah maksudmu ini:<br>"
+                    answer = "command tidak ditemukan, apakah maksudmu ini:\n"
                     for i in range(-1, -4, -1): #print 3 kemungkinan terbesar
-                        answer += ("- " + sim[i][1] + "<br>")
+                        answer += ("- " + sim[i][1] + "\n")
 
         return JsonResponse(answer, safe = False)
     except ValueError as ve:
