@@ -1,0 +1,7 @@
+{
+    "scripts": {
+        "chatbot-install": "yarn install && cd frontend && yarn install",
+        "backend": "cd backend && python3 manage.py migrate && python3 manage.py runserver",
+        "frontend": "cd frontend && echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_queued_events && echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_instances && adb reverse tcp:8000 tcp:8000 && expo start --android"
+    }
+}

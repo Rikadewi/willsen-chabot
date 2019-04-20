@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View, Image, Button } from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 
-const URL = 'http://localhost:8000/stringmatch/';
+const URL = 'http://localhost:8000/chatbot/';
 
 const postQuestion = (raw) => {
   let src = raw.toLowerCase().trim();  

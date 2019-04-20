@@ -1,19 +1,15 @@
 # chatbot-tubes-stima-3
-A chatbot using string matching algorithm for web and adroid platform
+A chatbot using string matching algorithm for web and android platform. 
+* This app was build with expo client, so make sure you have expo installed in your device.
+* Make sure your device is connected to server with debugging mode on (you can use USB and enable this option in your phone system). 
+* Also make sure your device and your server is in one LAN (you can enable hotspot in your device and make your server connected to it).
 
+# How to install
 For first timer
-`yarn install`
+`yarn run chatbot-install`
 
 # Run Backend
-* go to backend directory
-* migrate, run this command
-`python manage.py migrate`
-* run server, run this command
-`python manage.py runserver`
+`yarn run backend`
 
 # Run Frontend
-For first timer
-`yarn install`
-
-Run frontend service
-`yarn run`
+`yarn run frontend`
