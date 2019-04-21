@@ -26,7 +26,7 @@ def MainProg(inp):
             #sudah bernilai True jika sudah ada keluaran yang dikeluarkan
             sim = []
             for i, val in question_dict.items():
-                pattern = DelStopwords(i)
+                pattern = DelStopwords(ToSynonym(i))
                 if (BoyerMoore(u, pattern)):
                     answer = val
                     sudah = True
