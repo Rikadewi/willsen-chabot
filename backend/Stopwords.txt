@@ -19,10 +19,8 @@ andalah
 antar
 antara
 antaranya
-apa
 apaan
 apabila
-apakah
 apalagi
 apatah
 artinya
@@ -36,7 +34,6 @@ awal
 awalnya
 bagai
 bagaikan
-bagaimana
 bagaimanakah
 bagaimanapun
 bagi
@@ -73,8 +70,6 @@ berada
 berakhir
 berakhirlah
 berakhirnya
-berapa
-berapakah
 berapalah
 berapapun
 berarti
@@ -118,9 +113,7 @@ biasanya
 bila
 bilakah
 bisa
-bisakah
 boleh
-bolehkah
 bolehlah
 buat
 bukan
@@ -139,7 +132,6 @@ dahulu
 dalam
 dan
 dapat
-dari
 daripada
 datang
 dekat
@@ -299,8 +291,6 @@ kamilah
 kamu
 kamulah
 kan
-kapan
-kapankah
 kapanpun
 karena
 karenanya
@@ -325,7 +315,6 @@ kembali
 kemudian
 kemungkinan
 kemungkinannya
-kenapa
 kepada
 kepadanya
 kesampaian
@@ -365,7 +354,6 @@ malah
 malahan
 mampu
 mampukah
-mana
 manakala
 manalagi
 masa
@@ -418,7 +406,6 @@ mendatangi
 mendatangkan
 menegaskan
 mengakhiri
-mengapa
 mengatakan
 mengatakannya
 mengenai
@@ -514,7 +501,6 @@ rata
 rupanya
 saat
 saatnya
-saja
 sajalah
 saling
 sama
@@ -654,8 +640,6 @@ setinggi
 seusai
 sewaktu
 siap
-siapa
-siapakah
 siapapun
 sini
 sinilah
