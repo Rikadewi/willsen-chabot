@@ -59,8 +59,8 @@ Apa kepanjangan SKSD? Sistem Komunikasi Satelit Domestik
 Tanggal berapa diadakan pemilu tahun ini? 17 April 2019
 Sudah berapa kali diadakan pemilu presiden? 4 Kali
 Pemilu diadakan berapa kali setahun? 5 tahun sekali
-Siapa saja pembuat anda? <tuliskan nama anggota kelompok>
-Apa saja stack yang dipakai untuk membuat anda? <tuliskan stack yang dipakai>
+Siapa saja pembuat anda? Rika Dewi, Leonardo, Willsen Sentosa
+Apa saja stack yang dipakai untuk membuat anda? Ah kepo aja kamu
 Apa nama ibukota Indonesia? DKI Jakarta
 Nama ibukota Indonesia sebelum disebut Jakarta adalah? Jayakarta
 Siapa pembuat algoritma KMP? Knuth-Morris-Prat
