@@ -38,7 +38,7 @@ def MainProg(inp):
                 if (sim[-1][0] >= 90): #apabila similarity terbesar >= 90, perintah dijalankan
                     answer = question_dict[sim[-1][1]]
                 else:
-                    answer = "command tidak ditemukan, apakah maksudmu ini:\n"
+                    answer = "command tidak ditemukan, apakah maksudmu ini:<br>"
                     for i in range(-1, -4, -1): #print 3 kemungkinan terbesar
                         answer += ("- " + sim[i][1] + "\n")
 
@@ -108,9 +108,7 @@ def KnuthMorrisPratt(text, pattern): #text, pattern = string
 
 def countLongestPrefSuf(lps, pattern, len_of_pattern):
     temp_len = 0
-
     lps[0] = 0
-    
     i = 1
     while (i < len_of_pattern):
         if (pattern[i] == pattern[temp_len]):
@@ -137,7 +135,7 @@ def check(textIn, textDB):
 
 #QnA, Synonym, Stopword Functions
 def ReadQnA():
-    qna = open('qna.txt', 'r')
+    qna = open('qna.txt', 'r', encoding = 'utf8')
     question_dict = {}
     a = qna.read(1)
     while (a != ""):
@@ -161,7 +159,7 @@ def ReadQnA():
     return question_dict
 
 def ReadSynonym():
-    synonym = open('synonym.txt', 'r')
+    synonym = open('synonym.txt', 'r', encoding = 'utf8')
     a = synonym.read(1)
     dict_of_syn = {}
     while (a != ""):
@@ -203,7 +201,7 @@ def ToSynonym(inp):
 
 def ReadStopwords():
     stopword_list = []
-    stopwords = open('stopwords.txt', 'r')
+    stopwords = open('stopwords.txt', 'r', encoding = 'utf8')
     a = stopwords.read(1)
     while (a != ''):
         temp_stopword = []
