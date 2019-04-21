@@ -21,7 +21,6 @@ Arogan Sombong
 Artis Seniman
 Asa Harapan
 Asumsi Anggapan
-sinonim
 Bahari Laut
 Bahtera Perahu
 Bala Bencana
@@ -293,7 +292,7 @@ Strategi Taktik
 Supervisi Pengawasan
 Swatantra Otonomi
 Syahdan Konon
-Ta’aruf Perkenalan
+Taâ€™aruf Perkenalan
 Tabiat Watak
 Talenta Bakat
 Tandang Lawatan
