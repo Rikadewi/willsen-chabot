@@ -175,9 +175,9 @@ def ReadSynonym():
             syn = ''.join(temp_syn)
             if (a == ' '):
                 a = synonym.read(1)
-            list_of_syn.append(syn)
+            list_of_syn.append(syn.lower())#make synonym lowercase
 
-        dict_of_syn.update({word : list_of_syn})
+        dict_of_syn.update({word.lower() : list_of_syn})#make word lowercase
         a = synonym.read(1)#read \n
     
     return dict_of_syn
@@ -207,7 +207,7 @@ def ReadStopwords():
             a = stopwords.read(1)
         stopword = ''.join(temp_stopword)
         a = stopwords.read(1)
-        stopword_list.append(stopword)
+        stopword_list.append(stopword.lower())#make stopwords lowercase
 
     return stopword_list
 
