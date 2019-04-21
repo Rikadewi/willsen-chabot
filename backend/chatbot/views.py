@@ -25,12 +25,13 @@ def MainProg(inp):
             #sudah bernilai True jika sudah ada keluaran yang dikeluarkan
             sim = []
             for i, val in question_dict.items():
-                if (BoyerMoore(u, i)):
+                pattern = DelStopwords(i)
+                if (BoyerMoore(u, pattern)):
                     answer = val
                     sudah = True
                     break
                 else:
-                    sim.append([check(u, i), i])
+                    sim.append([check(u, pattern), i])
 
             if (not sudah):
                 sim.sort() #terurut membesar, akses elemen terakhir untuk similarity terbesar
@@ -38,7 +39,7 @@ def MainProg(inp):
                 if (sim[-1][0] >= 90): #apabila similarity terbesar >= 90, perintah dijalankan
                     answer = question_dict[sim[-1][1]]
                 else:
-                    answer = "command tidak ditemukan, apakah maksudmu ini:<br>"
+                    answer = "command tidak ditemukan, apakah maksudmu ini:\n"
                     for i in range(-1, -4, -1): #print 3 kemungkinan terbesar
                         answer += ("- " + sim[i][1] + "\n")
 
@@ -83,28 +84,24 @@ def KnuthMorrisPratt(text, pattern): #text, pattern = string
     t = len(text)
     p = len(pattern)
     #lps = longest prefix suffix
-    lps = [0 for i in range(t)]
+    lps = [0 for _ in range(t)]
     countLongestPrefSuf(lps, pattern, p)
 
     i = 0; j = 0
-    found_at_least_one = False
     while i < t:
         if (pattern[j] == text[i]):
             i += 1
             j += 1
 
         if (j == p):
-            #pattern ditemukan
-            print("pattern ada di", (i-j))
-            found_at_least_one = True
-            j = lps[j-1]
+            #pattern found
+            return True
         elif (i < t) and (pattern[j] != text[i]):
             if (j != 0):
                 j = lps[j-1]
             else:
                 i += 1
-    if (not found_at_least_one):
-        print("pattern tidak ditemukan")
+    return False
 
 def countLongestPrefSuf(lps, pattern, len_of_pattern):
     temp_len = 0
@@ -153,7 +150,7 @@ def ReadQnA():
             a = qna.read(1)
         jaw = ''.join(temp_jaw)
 
-        question_dict.update({pert.lower() : jaw})#make all query lowercase
+        question_dict.update({pert.lower() : jaw})#make question in lowercase
         a = qna.read(1)
 
     return question_dict
