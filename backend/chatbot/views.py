@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.conf import settings
 import json
-# Create your views here.
+
 @api_view(["POST"])
 def MainProg(inp):
     try:
@@ -21,6 +21,7 @@ def MainProg(inp):
             answer = question_dict[u]
             #break
         else:
+            del question_dict['keluar']
             sudah = False
             #sudah bernilai True jika sudah ada keluaran yang dikeluarkan
             sim = []
@@ -132,7 +133,7 @@ def check(textIn, textDB):
 
 #QnA, Synonym, Stopword Functions
 def ReadQnA():
-    qna = open('qna.txt', 'r', encoding = 'utf8')
+    qna = open('QnA.txt', 'r', encoding = 'utf8')
     question_dict = {}
     a = qna.read(1)
     while (a != ""):
@@ -156,7 +157,7 @@ def ReadQnA():
     return question_dict
 
 def ReadSynonym():
-    synonym = open('synonym.txt', 'r', encoding = 'utf8')
+    synonym = open('Sinonim.txt', 'r', encoding = 'utf8')
     a = synonym.read(1)
     dict_of_syn = {}
     while (a != ""):
@@ -198,7 +199,7 @@ def ToSynonym(inp):
 
 def ReadStopwords():
     stopword_list = []
-    stopwords = open('stopwords.txt', 'r', encoding = 'utf8')
+    stopwords = open('Stopwords.txt', 'r', encoding = 'utf8')
     a = stopwords.read(1)
     while (a != ''):
         temp_stopword = []
@@ -213,7 +214,6 @@ def ReadStopwords():
 
 def DelStopwords(inp):
     stopword_list = ReadStopwords()
-    print(inp)
     inp_sp = inp.split()
     inp_sp[-1] = inp_sp[-1].replace('?', '')
     inp_sp = [i for i in inp_sp if (i not in stopword_list)]
